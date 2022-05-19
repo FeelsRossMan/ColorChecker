@@ -3,11 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/layout/analysis_fragment.xml" value="0.30978260869565216" />
-        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/layout/content_main.xml" value="0.30978260869565216" />
-        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/layout/fragment_first.xml" value="0.31354166666666666" />
-        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/menu/menu_main.xml" value="0.31354166666666666" />
-        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3165" />
+        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/layout/activity_main.xml" value="0.31354166666666666" />
+        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/layout/analysis_fragment.xml" value="0.31354166666666666" />
+        <entry key="..\:/Users/elahe/AndroidStudioProjects/ColorChecker/app/src/main/res/layout/content_main.xml" value="0.3052536231884058" />
       </map>
     </option>
   </component>

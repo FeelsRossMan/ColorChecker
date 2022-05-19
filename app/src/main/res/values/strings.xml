@@ -6,5 +6,7 @@
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="button_to_open_camera">Button to open camera</string>
+    <string name="image_from_camera">Image from camera</string>
 
 </resources>
