@@ -13,8 +13,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
+import com.example.colorchecker.model.imageViewModel
 
 class AnalysisFragment: Fragment() {
+
 
     private lateinit var imageResultLauncher: ActivityResultLauncher<Intent>
     private var _binding: AnalysisFragmentBinding? = null
