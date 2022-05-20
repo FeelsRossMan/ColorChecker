@@ -12,15 +12,17 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
-import com.example.colorchecker.model.imageViewModel
+import com.example.colorchecker.model.PhotoViewModel
 
 class AnalysisFragment: Fragment() {
 
+    private val model: PhotoViewModel by activityViewModels()
 
     private lateinit var imageResultLauncher: ActivityResultLauncher<Intent>
     private var _binding: AnalysisFragmentBinding? = null
-    private lateinit var photoIV: ImageView
 
     private val binding get() = _binding
 
@@ -43,13 +45,15 @@ class AnalysisFragment: Fragment() {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageResultLauncher.launch(cameraIntent)
         }
-        photoIV = _binding!!.photoIV
         val view = binding?.root
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model.imageBitmap.observe(viewLifecycleOwner, Observer<Bitmap> { t: Bitmap? ->
+            _binding?.photoIV?.setImageBitmap(t)
+        })
     }
 
     override fun onDestroyView() {
@@ -59,7 +63,7 @@ class AnalysisFragment: Fragment() {
 
     private fun handleCameraImage(intent: Intent?) {
         val bitmap = intent?.extras?.get("data") as Bitmap
-        photoIV.setImageBitmap(bitmap)
+        model.updateImageBitmap(bitmap)
 
     }
 
