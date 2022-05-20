@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -51,9 +50,9 @@ class AnalysisFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model.imageBitmap.observe(viewLifecycleOwner, Observer<Bitmap> { t: Bitmap? ->
+        model.imageBitmap.observe(viewLifecycleOwner) { t: Bitmap? ->
             _binding?.photoIV?.setImageBitmap(t)
-        })
+        }
     }
 
     override fun onDestroyView() {
