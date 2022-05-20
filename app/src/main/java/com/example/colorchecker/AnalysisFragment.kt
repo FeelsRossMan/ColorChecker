@@ -1,11 +1,13 @@
 package com.example.colorchecker
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
@@ -33,6 +35,7 @@ class AnalysisFragment: Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +46,8 @@ class AnalysisFragment: Fragment() {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageResultLauncher.launch(cameraIntent)
         }
+
+        _binding!!.photoIV.setOnTouchListener { _, motionEvent->  onTouchPhotoIV(motionEvent = motionEvent)}
         return binding?.root
     }
 
@@ -62,6 +67,12 @@ class AnalysisFragment: Fragment() {
         val bitmap = intent?.extras?.get("data") as Bitmap
         model.updateImageBitmap(bitmap)
 
+    }
+
+    //TODO: Set it up so that it only rotates when in portrait mode
+    private fun onTouchPhotoIV(motionEvent: MotionEvent) : Boolean {
+        model.clickedImage(motionEvent.x,motionEvent.y)
+        return false
     }
 
 }
