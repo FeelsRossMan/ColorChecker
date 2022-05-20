@@ -12,7 +12,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
 import com.example.colorchecker.model.PhotoViewModel
 
@@ -44,8 +43,7 @@ class AnalysisFragment: Fragment() {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageResultLauncher.launch(cameraIntent)
         }
-        val view = binding?.root
-        return view
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
