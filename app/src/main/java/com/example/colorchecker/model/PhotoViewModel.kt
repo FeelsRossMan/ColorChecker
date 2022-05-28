@@ -1,7 +1,6 @@
 package com.example.colorchecker.model
 
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,8 +26,7 @@ class PhotoViewModel : ViewModel() {
         return String.format("#%06X", 0xFFFFFF and colorInt)
     }
 
-    fun getColorCodeOnClick(x: Float, y: Float) : Int? {
-        val color = _imageBitmap.value?.getPixel(x.toInt(), y.toInt())
-        return color
+    fun getColorCodeOnClick(x: Float, y: Float): Int? {
+        return _imageBitmap.value?.getPixel(x.toInt(), y.toInt())
     }
 }
