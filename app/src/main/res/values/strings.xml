@@ -8,5 +8,6 @@
     <string name="previous">Previous</string>
     <string name="button_to_open_camera">Button to open camera</string>
     <string name="image_from_camera">Image from camera</string>
+    <string name="color_popup_IV_description">The color of the spot you clicked</string>
 
 </resources>
