@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
@@ -18,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
 import com.example.colorchecker.model.PhotoViewModel
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 class AnalysisFragment: Fragment() {
 
@@ -69,10 +69,10 @@ class AnalysisFragment: Fragment() {
     private fun handleCameraImage(intent: Intent?) {
         val bitmap = intent?.extras?.get("data") as Bitmap
         model.updateImageBitmap(bitmap)
+        hideColorPopup()
 
     }
 
-    //TODO: Set it up so that it only rotates when in portrait mode
     private fun onTouchPhotoIV(motionEvent: MotionEvent) : Boolean {
         showColorPopup(motionEvent.x, motionEvent.y)
         return false
@@ -83,7 +83,15 @@ class AnalysisFragment: Fragment() {
         val layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
         layoutParams.setMargins(x.toInt(),y.toInt(),0,0)
         val colorPopupView = _binding?.colorPopupRL
-        colorPopupView?.findViewById<TextView>(R.id.color_Id)?.text = model.clickedImage(x,y)
+        colorPopupView?.findViewById<TextView>(R.id.color_popup_ID)?.text = model.getColorStringOnClick(x,y)
+        model.getColorCodeOnClick(x,y)?.let {
+            colorPopupView?.findViewById<ImageView>(R.id.color_popup_IV)?.setBackgroundColor(it)
+        }
         colorPopupView?.layoutParams = layoutParams
+        colorPopupView?.visibility = View.VISIBLE
+    }
+
+    private fun hideColorPopup() {
+        _binding?.colorPopupRL?.visibility = View.INVISIBLE
     }
 }
