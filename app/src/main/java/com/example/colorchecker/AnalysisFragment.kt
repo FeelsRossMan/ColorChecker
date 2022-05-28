@@ -10,12 +10,15 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
 import com.example.colorchecker.model.PhotoViewModel
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 class AnalysisFragment: Fragment() {
 
@@ -71,8 +74,16 @@ class AnalysisFragment: Fragment() {
 
     //TODO: Set it up so that it only rotates when in portrait mode
     private fun onTouchPhotoIV(motionEvent: MotionEvent) : Boolean {
-        model.clickedImage(motionEvent.x,motionEvent.y)
+        showColorPopup(motionEvent.x, motionEvent.y)
         return false
     }
 
+    private fun showColorPopup(x: Float, y: Float) {
+
+        val layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+        layoutParams.setMargins(x.toInt(),y.toInt(),0,0)
+        val colorPopupView = _binding?.colorPopup?.colorRL
+        colorPopupView?.layoutParams = layoutParams
+        colorPopupView?.visibility = View.VISIBLE
+    }
 }

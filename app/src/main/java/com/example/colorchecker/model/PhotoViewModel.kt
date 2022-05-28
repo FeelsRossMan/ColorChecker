@@ -1,8 +1,6 @@
 package com.example.colorchecker.model
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.Matrix
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,19 +12,17 @@ class PhotoViewModel : ViewModel() {
         get() = _imageBitmap
 
     fun updateImageBitmap(bitmap: Bitmap) {
-        _imageBitmap.value = bitmap.rotate()
+        _imageBitmap.value = bitmap
     }
 
-    private fun Bitmap.rotate(): Bitmap? {
-        val matrix = Matrix().apply { postRotate(90.0F) }
-        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    fun clickedImage(x: Float, y: Float) : String? {
+        val color = _imageBitmap.value?.getPixel(x.toInt(), y.toInt())
+
+        Log.d("PhotoViewModel", "Location: ($x, $y), Color: ($color)")
+        return color?.let { colorIntToString(it) }
     }
 
-    fun clickedImage(x: Float, y: Float) {
-
-        Log.d("PhotoViewModel", "Location: ($x, $y")
-
-        _imageBitmap.value?.setPixel(x.toInt(), y.toInt(), Color.argb(0,255,0,0))
-        _imageBitmap.value = _imageBitmap.value?.let { Bitmap.createBitmap(it) }
+    private fun colorIntToString(colorInt: Int): kotlin.String {
+        return String.format("#%06X", 0xFFFFFF and colorInt)
     }
 }
