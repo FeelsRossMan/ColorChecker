@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,10 +17,15 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
 import com.example.colorchecker.model.PhotoViewModel
+import java.io.File
+
+private const val FILE_NAME = "photo.jpg"
+private lateinit var photoFile: File
 
 class AnalysisFragment: Fragment() {
 
@@ -33,7 +40,7 @@ class AnalysisFragment: Fragment() {
         super.onCreate(savedInstanceState)
         imageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                handleCameraImage(result.data)
+                handleCameraImage()
             }
         }
     }
@@ -46,12 +53,19 @@ class AnalysisFragment: Fragment() {
     ): View? {
         _binding = AnalysisFragmentBinding.inflate(inflater, container, false)
         _binding!!.openCameraFAB.setOnClickListener {
+            photoFile = getPhotoFile()
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val fileProvider = FileProvider.getUriForFile(this.requireContext(), "com.example.colorchecker.fileprovider", photoFile)
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             imageResultLauncher.launch(cameraIntent)
         }
-
         _binding!!.photoIV.setOnTouchListener { _, motionEvent->  onTouchPhotoIV(motionEvent = motionEvent)}
         return binding?.root
+    }
+
+    private fun getPhotoFile(): File {
+        val storageDirectory = this.context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(FILE_NAME, ".jpg", storageDirectory)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,9 +80,9 @@ class AnalysisFragment: Fragment() {
         _binding = null
     }
 
-    private fun handleCameraImage(intent: Intent?) {
-        val bitmap = intent?.extras?.get("data") as Bitmap
-        model.updateImageBitmap(bitmap)
+    private fun handleCameraImage() {
+        val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+        model.updateImageBitmap(bitmap, requireContext().display!!.rotation)
         hideColorPopup()
 
     }
