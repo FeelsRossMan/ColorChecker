@@ -82,8 +82,8 @@ class AnalysisFragment: Fragment() {
 
         val layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
         layoutParams.setMargins(x.toInt(),y.toInt(),0,0)
-        val colorPopupView = _binding?.colorRL
+        val colorPopupView = _binding?.colorPopupRL
+        colorPopupView?.findViewById<TextView>(R.id.color_Id)?.text = model.clickedImage(x,y)
         colorPopupView?.layoutParams = layoutParams
-        colorPopupView?.visibility = View.VISIBLE
     }
 }
