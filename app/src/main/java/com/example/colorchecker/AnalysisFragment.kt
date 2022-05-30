@@ -125,19 +125,8 @@ class AnalysisFragment : Fragment() {
             Log.d(LOG_TAG, "showColorPopup called with null bitmap")
             return
         }
-        var xVal = x
-        var yVal = y
+
         val colorPopupView = _binding?.colorPopupLL
-
-        if (checkPopupLocationForWidth(x)) xVal -= colorPopupView?.width!!
-        if (checkPopupLocationForHeight(y)) yVal -= colorPopupView?.height!!
-
-        val layoutParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-
-        layoutParams.setMargins(xVal.toInt(), yVal.toInt(), 0, 0)
 
         colorPopupView?.findViewById<TextView>(R.id.color_popup_ID)?.text =
             model.getColorStringOnClick(x, y)
@@ -152,6 +141,22 @@ class AnalysisFragment : Fragment() {
                     this.requireContext(), R.color.black))
             }
         }
+
+        var xVal = x
+        var yVal = y
+
+
+        if (checkPopupLocationForWidth(x)) xVal -= colorPopupView?.width!!
+        if (checkPopupLocationForHeight(y)) yVal -= colorPopupView?.height!!
+
+        val layoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        layoutParams.setMargins(xVal.toInt(), yVal.toInt(), 0, 0)
+
+
 
         colorPopupView?.layoutParams = layoutParams
         colorPopupView?.visibility = View.VISIBLE
