@@ -22,6 +22,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
@@ -124,13 +125,20 @@ class AnalysisFragment : Fragment() {
             Log.d(LOG_TAG, "showColorPopup called with null bitmap")
             return
         }
+        var xVal = x
+        var yVal = y
+        val colorPopupView = _binding?.colorPopupLL
+
+        if (checkPopupLocationForWidth(x)) xVal -= colorPopupView?.width!!
+        if (checkPopupLocationForHeight(y)) yVal -= colorPopupView?.height!!
 
         val layoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(x.toInt(), y.toInt(), 0, 0)
-        val colorPopupView = _binding?.colorPopupLL
+
+        layoutParams.setMargins(xVal.toInt(), yVal.toInt(), 0, 0)
+
         colorPopupView?.findViewById<TextView>(R.id.color_popup_ID)?.text =
             model.getColorStringOnClick(x, y)
         model.getColorCodeOnClick(x, y).let {
@@ -153,10 +161,17 @@ class AnalysisFragment : Fragment() {
         _binding?.colorPopupLL?.visibility = View.INVISIBLE
     }
 
-    private fun checkPopupLocationForWidth(x: Float,y: Float) : Boolean {
-
-
-        return true
+    private fun checkPopupLocationForWidth(x: Float) : Boolean {
+        val linearLayout = _binding!!.photoRL
+        val colorPopup = _binding!!.colorPopupLL
+        val xMax = linearLayout.width
+        return colorPopup.width + x >= xMax
+    }
+    private fun checkPopupLocationForHeight(y: Float) : Boolean {
+        val linearLayout = _binding!!.photoRL
+        val colorPopup = _binding!!.colorPopupLL
+        val yMax = linearLayout.height
+        return colorPopup.height + y >= yMax
     }
 
     companion object {
