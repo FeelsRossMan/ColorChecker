@@ -19,20 +19,19 @@
             android:id="@+id/photo_IV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:contentDescription="@string/image_from_camera"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/color_popup_RL"
+            android:id="@+id/color_popup_LL"
             android:gravity="center_vertical"
             android:background="@color/cardview_light_background"
             android:visibility="invisible">
+
             <TextView
                 android:id="@+id/color_popup_ID"
                 android:layout_width="wrap_content"
@@ -43,13 +42,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="#0000FF"
                 />
-            <ImageView
-                android:id="@+id/color_popup_IV"
-                android:layout_width="@dimen/fab_margin"
-                android:layout_height="@dimen/fab_margin"
-                tools:background="@color/black"
-                android:layout_marginStart="8dp"
-                android:contentDescription="@string/color_popup_IV_description" />
 
         </LinearLayout>
     </RelativeLayout>
