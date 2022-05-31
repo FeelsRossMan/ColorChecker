@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.media.ExifInterface
 import android.os.Bundle
 import android.os.Environment
@@ -20,9 +19,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
@@ -51,6 +50,8 @@ class AnalysisFragment : Fragment() {
                     handleCameraImage(photoFile)
                 }
             }
+
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -72,6 +73,9 @@ class AnalysisFragment : Fragment() {
             imageResultLauncher.launch(cameraIntent)
         }
         _binding!!.photoIV.setOnTouchListener { _, motionEvent -> onTouchPhotoIV(motionEvent = motionEvent) }
+
+
+
         return binding?.root
     }
 
@@ -82,9 +86,17 @@ class AnalysisFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         model.imageBitmap.observe(viewLifecycleOwner) { t: Bitmap? ->
             _binding?.photoIV?.setImageBitmap(t)
         }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).supportActionBar?.title = setTitle()
     }
 
     override fun onDestroyView() {
@@ -98,18 +110,17 @@ class AnalysisFragment : Fragment() {
         val imageView = _binding?.photoIV
         imageView?.let {
             val x = imageView.measuredWidth
-            val y = imageView.measuredHeight
-            Log.d(LOG_TAG, "New bitmap with values width: $x, height: $y")
+            Log.d(LOG_TAG, "New bitmap with values width: $x")
             model.newImageBitmap(
                 bitmap,
                 x,
-                y,
                 exifInterface.getAttributeInt(
                     ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_NORMAL
                 )
             )
         }
+        (activity as AppCompatActivity).supportActionBar?.title = setTitle()
 
         hideColorPopup()
     }
@@ -177,6 +188,10 @@ class AnalysisFragment : Fragment() {
         val colorPopup = _binding!!.colorPopupLL
         val yMax = linearLayout.height
         return colorPopup.height + y >= yMax
+    }
+    private fun setTitle(): CharSequence {
+        if (!model.isNull()) return "Click a pixel to determine the color"
+        return "Take a photo to get started"
     }
 
     companion object {

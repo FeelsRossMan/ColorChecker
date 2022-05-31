@@ -15,7 +15,7 @@ class PhotoViewModel : ViewModel() {
         get() = _imageBitmap
 
 
-    fun newImageBitmap(newBitmap: Bitmap, ivWidth: Int, ivHeight: Int, rotate: Int = ExifInterface.ORIENTATION_NORMAL) {
+    fun newImageBitmap(newBitmap: Bitmap, ivWidth: Int, rotate: Int = ExifInterface.ORIENTATION_NORMAL) {
 //        val bitmap = newBitmap.cropBitmapToSize(ivWidth, ivHeight)
         var bitmap = newBitmap
         Log.d(LOG_TAG, "$rotate")
@@ -25,8 +25,12 @@ class PhotoViewModel : ViewModel() {
             ExifInterface.ORIENTATION_ROTATE_270 -> bitmap = bitmap.rotate(270F)!!
             else -> _imageBitmap.value = bitmap
         }
-        _imageBitmap.value = Bitmap.createScaledBitmap(bitmap, ivWidth, ivHeight, true)
-        Log.d(LOG_TAG, "Created bitmap dimensions: width: ${bitmap.width} height: ${bitmap.height}")
+        val widthRatio:Float = bitmap.width.toFloat()/ivWidth
+        val newHeight = (bitmap.height/widthRatio).toInt()
+
+
+        _imageBitmap.value = Bitmap.createScaledBitmap(bitmap, ivWidth, newHeight, true)
+        Log.d(LOG_TAG, "Created bitmap dimensions: width: $ivWidth height: $newHeight")
     }
 
 //    fun updateImageBitmap(bitmap: Bitmap) {
@@ -62,6 +66,8 @@ class PhotoViewModel : ViewModel() {
     fun isNull(): Boolean {
         return (_imageBitmap.value == null)
     }
+
+
 
     //    private fun Bitmap.cropBitmapToSize(width: Int, height: Int) : Bitmap{
 //        return Bitmap.createBitmap(this, 0, 0, width, height)
