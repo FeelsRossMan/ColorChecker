@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.ExifInterface
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -22,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.colorchecker.databinding.AnalysisFragmentBinding
@@ -50,8 +50,7 @@ class AnalysisFragment : Fragment() {
                     handleCameraImage(photoFile)
                 }
             }
-
-
+        //
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -165,7 +164,9 @@ class AnalysisFragment : Fragment() {
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
 
-        layoutParams.setMargins(xVal.toInt(), yVal.toInt(), 0, 0)
+        with(layoutParams) {
+            setMargins(xVal.toInt(), yVal.toInt(), 0, 0)
+        }
 
 
 
