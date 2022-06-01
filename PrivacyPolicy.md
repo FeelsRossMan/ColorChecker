@@ -7,3 +7,4 @@ If you are curious, all the apps source code can be found at the associated gith
 Best,
 
 Evan Lahey
+evanross.developer@gmail.com
